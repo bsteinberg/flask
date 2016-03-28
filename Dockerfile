@@ -27,14 +27,26 @@ ENV APP_PATH /usr/local/app
 #
 ################################################################################
 
+## Configure OS to be aware that there is no tty
+## -----------------------------------------------------------------------------
+ENV DEBIAN_FRONTEND noninteractive
+
+## Install basic requirements
+## -----------------------------------------------------------------------------
+RUN apt-get update \
+    && apt-get install -y \
+       curl \
+    && rm -rf /var/lib/apt/lists/*
+
 ## Install Python & Python PIP
 ## -----------------------------------------------------------------------------
 RUN apt-get update \
     && apt-get install -y \
        python \
-       python-pip \
     && rm -rf /var/lib/apt/lists/*
 
+RUN curl -O https://bootstrap.pypa.io/get-pip.py \
+    && python get-pip.py
 
 ## Install Flask
 ## -----------------------------------------------------------------------------
